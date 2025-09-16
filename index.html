@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Performance Table</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#60a5fa;
+      --bad:#ef4444;
+      --glass: rgba(255,255,255,0.04);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071122 0%, #081827 60%);color:#e6eef8}
+    .wrap{max-width:1200px;margin:28px auto;padding:24px}
+
+    .card{background:linear-gradient(180deg,var(--card),#071027);border-radius:12px;padding:16px;box-shadow:0 6px 24px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02);margin-bottom:24px}
+
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    thead th{position:sticky;top:0;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter: blur(4px);z-index:2;text-align:left;padding:10px}
+    tbody td{padding:10px;border-top:1px solid rgba(255,255,255,0.02)}
+    tbody tr:hover{background:rgba(255,255,255,0.02)}
+
+    td.user{width:200px;font-weight:600}
+    td.center{text-align:center}
+
+    .badge-true{background:linear-gradient(90deg,var(--bad),#fb7185);color:#fff;padding:6px 8px;border-radius:999px;font-weight:700}
+
+    .mini-bar{height:10px;border-radius:999px;background:linear-gradient(90deg, rgba(96,165,250,0.06), rgba(124,58,237,0.06));overflow:hidden;margin-top:4px}
+    .mini-bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <canvas id="progressChart" height="300"></canvas>
+    </div>
+    <div class="card">
+      <div id="tableWrap" style="overflow:auto;max-height:62vh"></div>
+    </div>
+  </div>
+
+  <script>
+    const rawCsv = `User,Day 1,Day 2,Day 3,Day 4,Day 5,breach
+gehendra22,-52.63%,,,, ,FALSCH
+satthuvjp9x,-14.63%,,,, ,FALSCH
+perun,-6.91%,,,, ,WAHR
+crptoboy,-4.88%,,,, ,FALSCH
+hetpatel,-4.14%,,,, ,FALSCH
+primeld,-4.03%,,,, ,FALSCH
+austinmarv,-3.34%,,,, ,FALSCH
+fein7,-3.27%,,,, ,FALSCH
+wout_124,-2.63%,,,, ,FALSCH
+stocks,-1.02%,,,, ,FALSCH
+lawt,-0.80%,,,, ,FALSCH
+mare,0.00%,,,, ,FALSCH
+reflex,0.00%,,,, ,FALSCH
+dhruv_ahuja,0.00%,,,, ,FALSCH
+enigmaticweirdo,0.00%,,,, ,FALSCH
+mystery,0.00%,,,, ,FALSCH
+agna,0.00%,,,, ,FALSCH
+profesional,0.00%,,,, ,FALSCH
+kzs,0.00%,,,, ,FALSCH
+rare,0.00%,,,, ,FALSCH
+jaminvesting,0.00%,,,, ,FALSCH
+needmoreore,0.00%,,,, ,FALSCH
+pepe_classic,0.64%,,,, ,FALSCH
+wildspider,0.64%,,,, ,FALSCH
+ubi,0.69%,,,, ,FALSCH
+joseeel7xd,2.74%,,,, ,FALSCH
+donatelloma,3.08%,,,, ,FALSCH
+charizard,3.32%,,,, ,FALSCH
+sea,4.14%,,,, ,FALSCH
+notfyre23,7.31%,,,, ,FALSCH
+khemera,8.51%,,,, ,FALSCH
+sid,9.86%,,,, ,FALSCH
+phuccck_euuuuuu,10.43%,,,, ,FALSCH
+les,10.67%,,,, ,FALSCH
+abhav_mittal_,12.51%,,,, ,FALSCH
+qasimmm,15.36%,,,, ,WAHR
+bit0,18.23%,,,, ,FALSCH`;
+
+    function parseCSV(csv){
+      const lines = csv.trim().split('\n');
+      const headers = lines[0].split(',').map(h=>h.trim());
+      let rows = lines.slice(1).map(line=>{
+        const parts = line.split(',');
+        const obj = {};
+        headers.forEach((h,i)=> obj[h] = (parts[i]||'').trim());
+        return obj;
+      });
+      const lastDay = headers.filter(h=>/^Day/i.test(h))[0];
+      rows.sort((a,b)=> parseFloat(b[lastDay]) - parseFloat(a[lastDay]));
+      return {headers,rows};
+    }
+
+    let tableData = parseCSV(rawCsv);
+
+    function renderTable(){
+      const {headers,rows} = tableData;
+      const wrap = document.getElementById('tableWrap');
+
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const trh = document.createElement('tr');
+      headers.forEach(h=>{
+        const th = document.createElement('th');
+        th.textContent = h;
+        trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        headers.forEach(h=>{
+          const td = document.createElement('td');
+          if(h==='User'){
+            td.className='user';
+            td.textContent = r[h];
+          } else if(h==='breach'){
+            const val = r[h]||'';
+            if(val.toUpperCase()==='WAHR'){
+              const badge = document.createElement('span');
+              badge.textContent = 'YES';
+              badge.className='badge-true';
+              td.appendChild(badge);
+            }
+          } else {
+            td.className='center';
+            td.textContent = r[h];
+            if(r[h]){
+              const numeric = parseFloat(r[h].replace('%','')) || 0;
+              const barwrap = document.createElement('div');
+              barwrap.className='mini-bar';
+              const inner = document.createElement('i');
+              const percent = Math.min(Math.abs(numeric),100);
+              inner.style.width = percent + '%';
+              if(numeric<0) inner.style.background = 'linear-gradient(90deg,var(--bad),#fb7185)';
+              barwrap.appendChild(inner);
+              td.appendChild(barwrap);
+            }
+          }
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      wrap.innerHTML='';
+      wrap.appendChild(table);
+    }
+
+    function renderChart(){
+      const {headers,rows} = tableData;
+      const dayCols = headers.filter(h=>/^Day/i.test(h));
+
+      const datasets = rows.map(r=>{
+        const values = [0].concat(dayCols.map(day=>{
+          const v = parseFloat(r[day].replace('%',''));
+          return isNaN(v)?null:v;
+        }));
+        return {
+          label:r['User'],
+          data:values,
+          borderColor:'#'+Math.floor(Math.random()*16777215).toString(16),
+          tension:0.3,
+          fill:false
+        };
+      });
+
+      const ctx = document.getElementById('progressChart');
+      new Chart(ctx,{
+        type:'line',
+        data:{
+          labels:['Day 0'].concat(dayCols),
+          datasets:datasets
+        },
+        options:{
+          responsive:true,
+          plugins:{
+            legend:{labels:{color:'#e6eef8'}},
+            tooltip:{
+              enabled:true,
+              callbacks:{
+                label: function(context){
+                  return context.dataset.label + ': ' + context.parsed.y + '%';
+                }
+              }
+            }
+          },
+          scales:{
+            x:{ticks:{color:'#94a3b8'}},
+            y:{ticks:{color:'#94a3b8'},title:{display:true,text:'% change',color:'#94a3b8'}}
+          }
+        }
+      });
+    }
+
+    renderTable();
+    renderChart();
+  </script>
+</body>
+</html>
