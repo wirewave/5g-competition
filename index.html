@@ -32,16 +32,19 @@
 
     .mini-bar{height:10px;border-radius:999px;background:linear-gradient(90deg, rgba(96,165,250,0.06), rgba(124,58,237,0.06));overflow:hidden;margin-top:4px}
     .mini-bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed)}
+
+    .footer-text{font-size:12px;color:var(--muted);margin-top:8px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <canvas id="progressChart" height="300"></canvas>
-    </div>
-    <div class="card">
       <div id="tableWrap" style="overflow:auto;max-height:62vh"></div>
     </div>
+    <div class="card">
+      <canvas id="progressChart" height="300"></canvas>
+    </div>
+    <div class="footer-text">Last updated: 16th September, 21:30 MESZ</div>
   </div>
 
   <script>
@@ -139,7 +142,7 @@ bit0,18.23%,,,, ,FALSCH`;
               const barwrap = document.createElement('div');
               barwrap.className='mini-bar';
               const inner = document.createElement('i');
-              const percent = Math.min(Math.abs(numeric),100);
+              let percent = Math.min(Math.abs(numeric),100); 
               inner.style.width = percent + '%';
               if(numeric<0) inner.style.background = 'linear-gradient(90deg,var(--bad),#fb7185)';
               barwrap.appendChild(inner);
@@ -184,19 +187,9 @@ bit0,18.23%,,,, ,FALSCH`;
           responsive:true,
           plugins:{
             legend:{labels:{color:'#e6eef8'}},
-            tooltip:{
-              enabled:true,
-              callbacks:{
-                label: function(context){
-                  return context.dataset.label + ': ' + context.parsed.y + '%';
-                }
-              }
-            }
+            tooltip:{enabled:true, callbacks:{label: function(context){ return context.dataset.label + ': ' + context.parsed.y + '%'; }}}
           },
-          scales:{
-            x:{ticks:{color:'#94a3b8'}},
-            y:{ticks:{color:'#94a3b8'},title:{display:true,text:'% change',color:'#94a3b8'}}
-          }
+          scales:{x:{ticks:{color:'#94a3b8'}},y:{ticks:{color:'#94a3b8'},title:{display:true,text:'% change',color:'#94a3b8'}}}
         }
       });
     }
