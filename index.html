@@ -44,48 +44,48 @@
     <div class="card">
       <canvas id="progressChart" height="300"></canvas>
     </div>
-    <div class="footer-text">Last updated: 17th September, 21:30 MESZ</div>
+    <div class="footer-text">Last updated: 18th September, 21:30 MESZ</div>
   </div>
 
   <script>
-    const rawCsv = `User,Day 1,Day 2,Day 3,Day 4,Day 5,breach
-charizard,3.32%,47.18%,,, ,FALSCH
-bit0,18.23%,39.66%,,, ,FALSCH
-sid,9.86%,35.31%,,, ,FALSCH
-pepe_classic,0.64%,34.26%,,, ,FALSCH
-khemera,8.51%,30.76%,,, ,FALSCH
-agna,0.00%,30.62%,,, ,FALSCH
-abhav_mittal_,12.51%,29.74%,,, ,FALSCH
-phuccck_euuuuuu,10.43%,28.93%,,, ,FALSCH
-qasimmm,15.36%,15.36%,,, ,WAHR
-hetpatel,-4.14%,15.99%,,, ,FALSCH
-stocks,-1.02%,16.88%,,, ,FALSCH
-wout_124,-2.63%,18.22%,,, ,FALSCH
-dhruv_ahuja,0.00%,15.19%,,, ,FALSCH
-donatelloma,3.08%,14.95%,,, ,FALSCH
-ubi,0.69%,4.66%,,, ,FALSCH
-joseeel7xd,2.74%,3.28%,,, ,FALSCH
-fein7,-3.27%,1.49%,,, ,FALSCH
-sea,4.14%,1.33%,,, ,FALSCH
-notfyre23,7.31%,1.14%,,, ,FALSCH
-crptoboy,-4.88%,0.58%,,, ,FALSCH
-les,10.67%,0.46%,,, ,FALSCH
-enigmaticweirdo,0.00%,0.02%,,, ,FALSCH
-mare,0.00%,0.00%,,, ,FALSCH
-reflex,0.00%,0.00%,,, ,FALSCH
-mystery,0.00%,0.00%,,, ,FALSCH
-profesional,0.00%,0.00%,,, ,FALSCH
-kzs,0.00%,0.00%,,, ,FALSCH
-rare,0.00%,0.00%,,, ,FALSCH
-jaminvesting,0.00%,0.00%,,, ,WAHR
-needmoreore,0.00%,0.00%,,, ,FALSCH
-wildspider,0.64%,-1.79%,,, ,FALSCH
-primeld,-4.03%,-2.46%,,, ,FALSCH
-lawt,-0.80%,-2.89%,,, ,FALSCH
-austinmarv,-3.34%,-3.04%,,, ,FALSCH
-satthuvjp9x,-14.63%,-11.02%,,, ,FALSCH
-perun,-6.91%,-28.93%,,, ,WAHR
-gehendra22,-52.63%,-43.80%,,, ,FALSCH`;
+    const rawCsv = `User,Day 1,Day 2,Day 3,Day 4,breach
+charizard,3.32%,47.18%,0.00%,,WAHR
+bit0,18.23%,39.66%,100.07%,,FALSCH
+sid,9.86%,35.31%,32.60%,,FALSCH
+pepe_classic,0.64%,34.26%,104.73%,,FALSCH
+khemera,8.51%,30.76%,49.08%,,FALSCH
+agna,0.00%,30.62%,24.05%,,FALSCH
+abhav_mittal_,12.51%,29.74%,53.45%,,FALSCH
+phuccck_euuuuuu,10.43%,28.93%,39.50%,,FALSCH
+qasimmm,15.36%,15.36%,15.36%,,WAHR
+hetpatel,-4.14%,15.99%,13.12%,,FALSCH
+stocks,-1.02%,16.88%,33.09%,,FALSCH
+wout_124,-2.63%,18.22%,12.80%,,FALSCH
+dhruv_ahuja,0.00%,15.19%,34.25%,,FALSCH
+donatelloma,3.08%,14.95%,6.82%,,WAHR
+ubi,0.69%,4.66%,5.68%,,FALSCH
+joseeel7xd,2.74%,3.28%,22.53%,,FALSCH
+fein7,-3.27%,1.49%,0.00%,,WAHR
+sea,4.14%,1.33%,-27.61%,,FALSCH
+notfyre23,7.31%,1.14%,-0.82%,,FALSCH
+crptoboy,-4.88%,0.58%,-4.08%,,FALSCH
+les,10.67%,0.46%,11.45%,,FALSCH
+enigmaticweirdo,0.00%,0.02%,0.06%,,FALSCH
+mare,0.00%,0.00%,0.00%,,FALSCH
+reflex,0.00%,0.00%,0.00%,,FALSCH
+mystery,0.00%,0.00%,0.00%,,FALSCH
+profesional,0.00%,0.00%,0.00%,,FALSCH
+kzs,0.00%,0.00%,0.00%,,WAHR
+rare,0.00%,0.00%,0.00%,,FALSCH
+jaminvesting,0.00%,0.00%,0.00%,,WAHR
+needmoreore,0.00%,0.00%,0.00%,,FALSCH
+wildspider,0.64%,-1.79%,-1.79%,,FALSCH
+primeld,-4.03%,-2.46%,0.15%,,FALSCH
+lawt,-0.80%,-2.89%,-2.89%,,FALSCH
+austinmarv,-3.34%,-3.04%,-3.04%,,FALSCH
+satthuvjp9x,-14.63%,-11.02%,-0.25%,,FALSCH
+perun,-6.91%,-28.93%,-31.23%,,WAHR
+gehendra22,-52.63%,-43.80%,-51.28%,,FALSCH`;
 
     function parseCSV(csv){
       const lines = csv.trim().split('\n');
@@ -97,8 +97,8 @@ gehendra22,-52.63%,-43.80%,,, ,FALSCH`;
         return obj;
       });
       rows.sort((a,b) => {
-        const av = parseFloat((a["Day 2"]||"0").replace("%","")) || 0;
-        const bv = parseFloat((b["Day 2"]||"0").replace("%","")) || 0;
+        const av = parseFloat((a["Day 3"]||"0").replace("%","")) || 0;
+        const bv = parseFloat((b["Day 3"]||"0").replace("%","")) || 0;
         return bv - av;
       });
 
