@@ -49,43 +49,44 @@
 
   <script>
     const rawCsv = `User,Day 1,Day 2,Day 3,Day 4,breach
-charizard,3.32%,47.18%,57.93%,,FALSCH
-bit0,18.23%,39.66%,100.07%,,FALSCH
-sid,9.86%,35.31%,32.60%,,FALSCH
-pepe_classic,0.64%,34.26%,104.73%,,FALSCH
-khemera,8.51%,30.76%,49.08%,,FALSCH
-agna,0.00%,30.62%,24.05%,,FALSCH
-abhav_mittal_,12.51%,29.74%,53.45%,,FALSCH
-phuccck_euuuuuu,10.43%,28.93%,39.50%,,FALSCH
-qasimmm,15.36%,15.36%,15.36%,,WAHR
-hetpatel,-4.14%,15.99%,13.12%,,FALSCH
-stocks,-1.02%,16.88%,33.09%,,FALSCH
-wout_124,-2.63%,18.22%,12.80%,,FALSCH
-dhruv_ahuja,0.00%,15.19%,34.25%,,FALSCH
-donatelloma,3.08%,14.95%,6.82%,,WAHR
-ubi,0.69%,4.66%,5.68%,,FALSCH
-joseeel7xd,2.74%,3.28%,22.53%,,FALSCH
+charizard,3.32%,47.18%,57.93%,-73.23%,FALSCH
+bit0,18.23%,39.66%,100.07%,80.72%,FALSCH
+sid,9.86%,35.31%,32.60%,11.94%,FALSCH
+pepe_classic,0.64%,34.26%,104.73%,0.00%,FALSCH
+khemera,8.51%,30.76%,49.08%,-9.57%,FALSCH
+agna,0.00%,30.62%,24.05%,10.76%,FALSCH
+abhav_mittal_,12.51%,29.74%,53.45%,57.54%,FALSCH
+phuccck_euuuuuu,10.43%,28.93%,39.50%,22.09%,FALSCH
+qasimmm,15.36%,15.36%,15.36%,15.36%,WAHR
+hetpatel,-4.14%,15.99%,13.12%,-9.76%,FALSCH
+stocks,-1.02%,16.88%,33.09%,33.09%,FALSCH
+wout_124,-2.63%,18.22%,12.80%,-6.73%,FALSCH
+dhruv_ahuja,0.00%,15.19%,34.25%,6.70%,FALSCH
+donatelloma,3.08%,14.95%,6.82%,32.84%,WAHR
+ubi,0.69%,4.66%,5.68%,5.68%,FALSCH
+joseeel7xd,2.74%,3.28%,22.53%,22.53%,FALSCH
 fein7,-3.27%,1.49%,0.00%,,WAHR
-sea,4.14%,1.33%,-27.61%,,FALSCH
-notfyre23,7.31%,1.14%,-0.82%,,FALSCH
-crptoboy,-4.88%,0.58%,-4.08%,,FALSCH
-les,10.67%,0.46%,11.45%,,FALSCH
-enigmaticweirdo,0.00%,0.02%,0.06%,,FALSCH
-mare,0.00%,0.00%,0.00%,,FALSCH
-reflex,0.00%,0.00%,0.00%,,FALSCH
-mystery,0.00%,0.00%,0.00%,,FALSCH
-profesional,0.00%,0.00%,0.00%,,FALSCH
-kzs,0.00%,0.00%,0.00%,,WAHR
-rare,0.00%,0.00%,0.00%,,FALSCH
-jaminvesting,0.00%,0.00%,0.00%,,WAHR
-needmoreore,0.00%,0.00%,0.00%,,FALSCH
-wildspider,0.64%,-1.79%,-1.79%,,FALSCH
-primeld,-4.03%,-2.46%,0.15%,,FALSCH
-lawt,-0.80%,-2.89%,-2.89%,,FALSCH
-austinmarv,-3.34%,-3.04%,-3.04%,,FALSCH
-satthuvjp9x,-14.63%,-11.02%,-0.25%,,FALSCH
-perun,-6.91%,-28.93%,-31.23%,,WAHR
-gehendra22,-52.63%,-43.80%,-51.28%,,FALSCH`;
+sea,4.14%,1.33%,-27.61%,-27.61%,FALSCH
+notfyre23,7.31%,1.14%,-0.82%,-77.94%,FALSCH
+crptoboy,-4.88%,0.58%,-4.08%,-53.19%,FALSCH
+les,10.67%,0.46%,11.45%,25.74%,FALSCH
+enigmaticweirdo,0.00%,0.02%,0.06%,0.00%,FALSCH
+mare,0.00%,0.00%,0.00%,0.00%,FALSCH
+reflex,0.00%,0.00%,0.00%,0.00%,FALSCH
+mystery,0.00%,0.00%,0.00%,0.00%,FALSCH
+profesional,0.00%,0.00%,0.00%,12.48%,FALSCH
+kzs,0.00%,0.00%,0.00%,0.00%,WAHR
+rare,0.00%,0.00%,0.00%,0.00%,FALSCH
+jaminvesting,0.00%,0.00%,0.00%,0.00%,WAHR
+needmoreore,0.00%,0.00%,0.00%,0.00%,FALSCH
+wildspider,0.64%,-1.79%,-1.79%,-1.79%,FALSCH
+primeld,-4.03%,-2.46%,0.15%,3.54%,FALSCH
+lawt,-0.80%,-2.89%,-2.89%,-2.89%,FALSCH
+austinmarv,-3.34%,-3.04%,-3.04%,-5.20%,FALSCH
+satthuvjp9x,-14.63%,-11.02%,-0.25%,9.46%,FALSCH
+perun,-6.91%,-28.93%,-31.23%,-26.92%,WAHR
+gehendra22,-52.63%,-43.80%,-51.28%,-31.36%,FALSCH
+traderwizard,0.00%,0.00%,0.00%,90.73%,FALSCH`;
 
     function parseCSV(csv){
       const lines = csv.trim().split('\n');
@@ -97,8 +98,8 @@ gehendra22,-52.63%,-43.80%,-51.28%,,FALSCH`;
         return obj;
       });
       rows.sort((a,b) => {
-        const av = parseFloat((a["Day 3"]||"0").replace("%","")) || 0;
-        const bv = parseFloat((b["Day 3"]||"0").replace("%","")) || 0;
+        const av = parseFloat((a["Day 4"]||"0").replace("%","")) || 0;
+        const bv = parseFloat((b["Day 4"]||"0").replace("%","")) || 0;
         return bv - av;
       });
 
